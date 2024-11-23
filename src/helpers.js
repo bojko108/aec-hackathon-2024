@@ -1,0 +1,23 @@
+export const min = (values) => Math.min(...values);
+export const max = (values) => Math.max(...values);
+export const average = (values) => values.reduce((tmp, i) => tmp + i, 0) / values.count;
+export const total = (values) => values.reduce((tmp, i) => tmp + i, 0);
+
+const normalThreshold = 30;
+const warningThreshold = 60;
+const criticalThreshold = Infinity;
+
+export const getBadgeColor = (value) => {
+    if (between(value, 0, normalThreshold))
+        return 'green';
+    else if (between(value, normalThreshold, warningThreshold))
+        return 'orange';
+    else // criticalThreshold
+        return 'red';
+}
+
+export const between = (value, a, b) => {
+    const min = Math.min(a, b);
+    const max = Math.max(a, b);
+    return value >= min && value < max;
+};
