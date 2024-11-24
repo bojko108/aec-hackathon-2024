@@ -1,13 +1,13 @@
-# $$$ APP NAME $$$
+# HazeAway
 
 # Team Y (WHY?)
 
-_WHY you don't care about the air quality?_
+_Because we care about the air quality!_
 
-1. ...
-2. ...
-3. ...
-4. ...
+1. Мартин Евлогиев - https://www.linkedin.com/in/martin-evlogiev-4a160b84/
+2. Bogdan Hristozov - https://www.linkedin.com/in/bogdan-hristozov/
+3. Marian Maximov - https://www.linkedin.com/in/marian-maximov-6070662b1/
+4. Цветомир Цветков - tsvetomir.tsvetkov93@gmail.com
 5. ...
 6. ...
 7. ...
@@ -80,7 +80,6 @@ npm install
 npm run dev
 ```
 
-$$$SCREEN SHOTS$$$
 ## Track Summary Calculation
 
 For each point of the track, the total amount of pollution (PM10) is extracted from the database and then the following parameters are calculated:

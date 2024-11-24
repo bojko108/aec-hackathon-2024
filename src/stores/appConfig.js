@@ -9,19 +9,19 @@ const tracksLayerStyles = [{
         "value": "Track A"
     },
     "stroke": {
-        "color": "#31CCEC",
-        "width": 20
+        "color": "green",
+        "width": 10
     }
 }, {
     "name": "Track B",
     "filters": {
         "field": "name",
         "operator": "contain",
-        "value": "Track A"
+        "value": "Track B"
     },
     "stroke": {
-        "color": "#31CCEC",
-        "width": 20
+        "color": "red",
+        "width": 10
     }
 }];
 
@@ -30,11 +30,11 @@ export default {
         "map": {
             "flashOnClick": false,
             "displayPopups": false,
-            "zoom": 8,
+            "zoom": 14,
             "minZoom": 6,
-            "maxZoom": 18,
-            "latitude": 42.63795635422295,
-            "longitude": 25.19576409343405,
+            "maxZoom": 22,
+            "latitude": 42.66390920400963,//42.63795635422295,
+            "longitude": 23.300752263414342,//25.19576409343405,
             "basemap": "topo_mapycz",
             "controls": {
                 "attribution": false,
@@ -56,7 +56,7 @@ export default {
                 /* The above code is setting the stroke color to "#31CCEC" and the stroke width to 20. */
                 "stroke": {
                     "color": "#31CCEC",
-                    "width": 40
+                    "width": 10
                 }
             },
             "layers": [

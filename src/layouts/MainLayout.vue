@@ -8,8 +8,10 @@
 
         <q-toolbar-title>
           <!-- {{ $package.productName }} -->
-          $$$ NAME $$$
+          HazeAway
         </q-toolbar-title>
+
+        <img src="logo.png">
       </q-toolbar>
     </q-header>
 
@@ -89,8 +91,12 @@
 </template>
 
 <script>
+import { Feature } from 'ol';
+import { Point } from 'ol/geom';
+import { transform } from 'ol/proj.js';
 import { defineComponent } from 'vue';
 import { min, max, average, total, getColor } from '../helpers.js';
+import { getMapPointStyle } from '../mapStyles';
 import DisplayValue from 'src/components/DisplayValue.vue';
 import ValuesInfo from 'src/components/ValuesInfo.vue';
 
@@ -101,20 +107,12 @@ export default defineComponent({
   name: 'MainLayout',
   components: {
     DisplayValue,
-    DisplayValue,
-    ValuesInfo,
-    DisplayValue
+    ValuesInfo
   },
   data() {
     return {
       leftDrawerOpen: false,
-      trackInfo: {
-        coordinates: [],
-        minimum: 23,
-        maximum: 67,
-        average: (67 + 23) / 2,
-        total: 67 + 23
-      }
+      trackInfo: null
     }
   },
   computed: {
@@ -126,51 +124,49 @@ export default defineComponent({
   methods: {
     appReady() {
       this.store.app.widgets.select.on('changed', this.handleSelectionChanged);
+
+      this.store.app.map.defaultLayer.setStyle((feature, resolution) => {
+        const modelValue = feature.get('modelValue');
+        const style = getMapPointStyle(modelValue);
+      });
     },
     toggleLeftDrawer() {
       this.leftDrawerOpen = !this.leftDrawerOpen
     },
     showTrackStatisticsOnMap() {
-      const features = this.trackInfo.coordinates.map(({ item }) => {
-
-        // project to web mercator?
-        return new Features({
-          geometry: new Point([item.longitude, item.latitude]),
+      const features = this.trackInfo.coordinates.map((item) => {
+        return new Feature({
+          geometry: new Point(transform([item.longitude, item.latitude], 'EPSG:4326', 'EPSG:3857')),
           modelValue: item.value,
           color: getColor(item.value)
         });
       });
-
-      console.log(features);
-
-      this.store.map.defaultLayer.addFeatures(features);
+      debugger;
+      this.store.app.map.defaultLayer.addFeatures(features);
     },
     hideTrackStatisticsOnMap() {
       this.store.map.defaultLayer.getClearSource();
     },
     async handleSelectionChanged(selection) {
-      console.log(selection);
-
       const track = selection[0];
       await this.calculateTrackInfo(track);
     },
     async calculateTrackInfo(track) {
-      const coordinates = track.getGeometry().getCoordinates();
+      let coordinates = track.getGeometry().getCoordinates();
+      coordinates = coordinates.map(c => {
+        const [longitude, latitude] = transform([c[0], c[1]], 'EPSG:3857', 'EPSG:4326');
+        return { latitude, longitude };
+      });
 
-      // project to wgs84?
-
-      const coordinatesAndModelValues = await this.$axios.post(`${this.store.servicesURL}/utils/gate`, { coordinates });
-      const values = coordinatesAndModelValues.map(value => value);
-
-      console.log(coordinatesAndModelValues);
-      console.log(values);
+      const { data } = await this.$axios.post(`${this.store.servicesURL}/utils/gate`, { coordinates });
+      const values = data.map(i => Math.round(i.value));
 
       this.trackInfo = {
-        coordinates: coordinatesAndModelValues,
-        minimum: Math.round(min(values)),
-        maximum: Math.round(max(values)),
-        average: Math.round(average(values)),
-        total: Math.round(total(values))
+        coordinates: data,
+        minimum: min(values),
+        maximum: max(values),
+        average: average(values),
+        total: total(values)
       }
     }
   }

@@ -1,7 +1,7 @@
 export const min = (values) => Math.min(...values);
 export const max = (values) => Math.max(...values);
-export const average = (values) => values.reduce((tmp, i) => tmp + i, 0) / values.count;
-export const total = (values) => values.reduce((tmp, i) => tmp + i, 0);
+export const average = (values) => Math.round(values.reduce((tmp, i) => tmp + i, 0) / values.length);
+export const total = (values) => Math.round(values.reduce((tmp, i) => tmp + i, 0));
 
 const normalThreshold = 30;
 const warningThreshold = 60;
