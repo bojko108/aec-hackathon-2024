@@ -6,12 +6,12 @@
       <q-toolbar>
         <q-btn flat dense round icon="mdi-menu" aria-label="Menu" @click="toggleLeftDrawer" />
 
-        <q-toolbar-title>
-          <!-- {{ $package.productName }} -->
-          HazeAway
-        </q-toolbar-title>
+        <!-- <q-toolbar-title>
+           {{ $package.productName }} 
+         HazeAway
+        </q-toolbar-title> -->
 
-        <img src="logo.png">
+        <img src="logo.png" style="max-height: 60px;">
       </q-toolbar>
     </q-header>
 
