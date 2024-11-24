@@ -3,8 +3,8 @@ export const max = (values) => Math.max(...values);
 export const average = (values) => Math.round(values.reduce((tmp, i) => tmp + i, 0) / values.length);
 export const total = (values) => Math.round(values.reduce((tmp, i) => tmp + i, 0));
 
-const normalThreshold = 30;
-const warningThreshold = 60;
+const normalThreshold = 50;
+const warningThreshold = 70;
 const criticalThreshold = Infinity;
 
 export const getColor = (value) => {
@@ -19,5 +19,5 @@ export const getColor = (value) => {
 export const between = (value, a, b) => {
     const min = Math.min(a, b);
     const max = Math.max(a, b);
-    return value >= min && value < max;
+    return value >= min && value <= max;
 };
