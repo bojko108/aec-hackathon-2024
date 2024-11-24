@@ -71,14 +71,16 @@ CREATE INDEX IF NOT EXISTS tracks_geom_idx
    
    The GIS server should provide also raster query operation:
    - method `POST`
-   - body `[{latitude: number, longitude: number}]`
-   - response `[{latitude: number, longitude: number, value: number}]` (**value is extracted from the raster**)
+   - body `{coordinates: [ { latitude: number, longitude: number } ], ... }`
+   - response `[ { latitude: number, longitude: number, value: number }, ... ]` (**value is extracted from the raster**)
 4. Modify `.src/stores/main-store.js` - set `servicesURL` to point to your GIS server.
 5. Run the app:
 ```
 npm install
 npm run dev
 ```
+
+![web app](./img/web-app1.png "HazeAway")
 
 ## Track Summary Calculation
 
