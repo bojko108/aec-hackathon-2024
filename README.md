@@ -9,8 +9,8 @@ _Because we care about the air quality!_
 3. Marian Maximov - https://www.linkedin.com/in/marian-maximov-6070662b1/
 4. Цветомир Цветков - tsvetomir.tsvetkov93@gmail.com
 5. Людмила Бояджиева - https://www.linkedin.com/in/lyudmila-boyadzhieva-65419b86/
-6. ...
-7. ...
+6. Adelina Dimova - https://www.linkedin.com/in/adelina-naydenova-8a872840/
+7. Chavdar Chenkov - https://www.linkedin.com/in/chenkov/
 
 ## What problem do we solve?
 Do you know that there are more than **262 million people** with asthma in the world? And this is without even counting other common chronic respiratory diseases (e.g. obstructive pulmonary disease (COPD), occupational lung diseases, and pulmonary hypertension). There are **350,000 people** with asthma only **in Bulgaria**. This means that **1 of every 19 people** have this. So probably you already know someone with this issue, he or she might be your friend, your colleague or as it happens often in Sofia - your kid. And according to the World Health Organization, the biggest risk factors for these diseases are air pollution and dust. Also - fine particles are the main carriers of allergens.
