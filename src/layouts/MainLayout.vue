@@ -61,16 +61,18 @@
         <ValuesInfo />
 
         <div class="text-center">
-          <q-btn color="primary" icon="mdi-eye" label="Show On Map" @click="showTrackStatisticsOnMap">
-            <q-tooltip>
-              Click to view detailed information for each part of the track on the map
-            </q-tooltip>
-          </q-btn>
-          <q-btn color="primary" icon="mdi-eye-off" label="Hide From Map" @click="hideTrackStatisticsOnMap">
-            <q-tooltip>
-              Click to hide detailed information for each part of the track from the map
-            </q-tooltip>
-          </q-btn>
+          <q-btn-group>
+            <q-btn color="primary" icon="mdi-eye" label="Show" @click="showTrackStatisticsOnMap">
+              <q-tooltip>
+                Click to view detailed information for each part of the track on the map
+              </q-tooltip>
+            </q-btn>
+            <q-btn color="primary" icon="mdi-eye-off" label="Hide" @click="hideTrackStatisticsOnMap">
+              <q-tooltip>
+                Click to hide detailed information for each part of the track from the map
+              </q-tooltip>
+            </q-btn>
+          </q-btn-group>
         </div>
       </div>
     </q-drawer>
@@ -165,10 +167,10 @@ export default defineComponent({
 
       this.trackInfo = {
         coordinates: coordinatesAndModelValues,
-        minimum: min(values),
-        maximum: max(values),
-        average: average(values),
-        total: total(values)
+        minimum: Math.round(min(values)),
+        maximum: Math.round(max(values)),
+        average: Math.round(average(values)),
+        total: Math.round(total(values))
       }
     }
   }
