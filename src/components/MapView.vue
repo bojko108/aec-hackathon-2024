@@ -16,33 +16,16 @@ export default {
   },
   created() {
     this.$events.on(APPREADY, this.appReady);
-    this.$events.on(MAPREADY, this.mapReady);
   },
   async mounted() {
     await this.initMap();
   },
   beforeUnmount() {
     this.$events.off(APPREADY, this.appReady);
-    this.$events.off(MAPREADY, this.mapReady);
   },
   methods: {
     appReady() {
       window.app = this.store.app;
-    },
-    async mapReady() {
-      if (!this.store.layer || !this.store.fid) return;
-
-      const layer = this.store.app.map.getLayerBy(this.store.layer);
-      if (!layer) return;
-
-      let [feature] = layer.find([{ field: 'id', value: this.store.fid }]);
-      if (!feature)
-        [feature] = await layer.search(`id='${this.store.fid}'`);
-
-      if (!feature) return;
-
-      feature.zoomTo();
-      this.store.app.widgets.select.selectFeatures([feature]);
     },
     async initMap() {
       try {

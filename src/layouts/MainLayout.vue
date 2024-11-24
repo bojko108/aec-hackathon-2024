@@ -61,9 +61,14 @@
         <ValuesInfo />
 
         <div class="text-center">
-          <q-btn color="primary" icon="mdi-palette" label="Show On Map" @click="showTrackStatisticsOnMap">
+          <q-btn color="primary" icon="mdi-eye" label="Show On Map" @click="showTrackStatisticsOnMap">
             <q-tooltip>
               Click to view detailed information for each part of the track on the map
+            </q-tooltip>
+          </q-btn>
+          <q-btn color="primary" icon="mdi-eye-off" label="Hide From Map" @click="hideTrackStatisticsOnMap">
+            <q-tooltip>
+              Click to hide detailed information for each part of the track from the map
             </q-tooltip>
           </q-btn>
         </div>
@@ -83,10 +88,12 @@
 
 <script>
 import { defineComponent } from 'vue';
+import { min, max, average, total, getColor } from '../helpers.js';
 import DisplayValue from 'src/components/DisplayValue.vue';
 import ValuesInfo from 'src/components/ValuesInfo.vue';
 
 import { mainStore } from 'src/stores/main-store';
+import { APPREADY } from 'src/events';
 
 export default defineComponent({
   name: 'MainLayout',
@@ -100,6 +107,7 @@ export default defineComponent({
     return {
       leftDrawerOpen: false,
       trackInfo: {
+        coordinates: [],
         minimum: 23,
         maximum: 67,
         average: (67 + 23) / 2,
@@ -110,12 +118,58 @@ export default defineComponent({
   computed: {
     store: () => mainStore()
   },
+  created() {
+    this.$events.on(APPREADY, this.appReady);
+  },
   methods: {
+    appReady() {
+      this.store.app.widgets.select.on('changed', this.handleSelectionChanged);
+    },
     toggleLeftDrawer() {
       this.leftDrawerOpen = !this.leftDrawerOpen
     },
     showTrackStatisticsOnMap() {
-      console.log('aaa');
+      const features = this.trackInfo.coordinates.map(({ item }) => {
+
+        // project to web mercator?
+        return new Features({
+          geometry: new Point([item.longitude, item.latitude]),
+          modelValue: item.value,
+          color: getColor(item.value)
+        });
+      });
+
+      console.log(features);
+
+      this.store.map.defaultLayer.addFeatures(features);
+    },
+    hideTrackStatisticsOnMap() {
+      this.store.map.defaultLayer.getClearSource();
+    },
+    async handleSelectionChanged(selection) {
+      console.log(selection);
+
+      const track = selection[0];
+      await this.calculateTrackInfo(track);
+    },
+    async calculateTrackInfo(track) {
+      const coordinates = track.getGeometry().getCoordinates();
+
+      // project to wgs84?
+
+      const coordinatesAndModelValues = await this.$axios.post(`${this.store.servicesURL}/utils/gate`, { coordinates });
+      const values = coordinatesAndModelValues.map(value => value);
+
+      console.log(coordinatesAndModelValues);
+      console.log(values);
+
+      this.trackInfo = {
+        coordinates: coordinatesAndModelValues,
+        minimum: min(values),
+        maximum: max(values),
+        average: average(values),
+        total: total(values)
+      }
     }
   }
 })

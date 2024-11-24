@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { getBadgeColor } from '../helpers.js';
+import { getColor } from '../helpers.js';
 
 export default {
   name: 'DisplayValue',
@@ -27,9 +27,7 @@ export default {
     if (this.textValue)
       this.color = this.colorStatic;
     else
-      this.color = getBadgeColor(this.value);
-
-    console.log(this.color);
+      this.color = getColor(this.value);
   }
 }
 </script>

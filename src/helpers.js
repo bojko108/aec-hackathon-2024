@@ -7,7 +7,7 @@ const normalThreshold = 30;
 const warningThreshold = 60;
 const criticalThreshold = Infinity;
 
-export const getBadgeColor = (value) => {
+export const getColor = (value) => {
     if (between(value, 0, normalThreshold))
         return 'green';
     else if (between(value, normalThreshold, warningThreshold))
